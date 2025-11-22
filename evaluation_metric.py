@@ -119,6 +119,34 @@ def evaluate_json(expected_json: JSON_TYPES, predicted_json_str: str) -> float:
     return metrics.f1_score()
 
 
+def score(solution: pd.DataFrame, submission: pd.DataFrame) -> float:
+    """
+    Calculate the mean score of predictions made in a submission against the ground truth solution.
+
+    The function takes a ground truth DataFrame and a submission DataFrame, merges them using the "id" column,
+    and computes a score for each row by applying the evaluation function to the true answers
+    and the predicted values. The average of all scores is returned.
+
+    Parameters:
+    solution : pd.DataFrame
+        A DataFrame containing the true answers. Must include a column named "id".
+    submission : pd.DataFrame
+        A DataFrame containing the predicted answers. Must include a column named "id".
+
+    Returns:
+    float
+        The mean score computed by comparing the true answers with the predictions.
+
+    Raises:
+    AssertionError
+        If either the solution or submission DataFrame does not contain the "id" column.
+    """
+    assert "id" in solution.columns and "id" in submission.columns, "Missing 'id' column"
+    df = solution.merge(submission, on="id", how="left", suffixes=("_true", "_pred"))
+    df['score'] = df.apply(lambda row: evaluate_json(json.loads(row['answer']), row['prediction']), axis=1)
+    return df.score.mean()
+
+
 def main():
     expected_json = {
         'purchases': [
