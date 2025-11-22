@@ -148,29 +148,9 @@ def score(solution: pd.DataFrame, submission: pd.DataFrame) -> float:
 
 
 def main():
-    expected_json = {
-        'purchases': [
-            {
-                'product_name': 'Antitranspirante .Rexona Motionsense Antibacterial Roll Onx50ml',
-                'units': 3
-            },
-            {
-                "product_name": "Rey Bolsa Clavo Pepa ",
-                "units": 9
-            },
-            {
-                "product_name": "Chocolates Witors selecci\u00f3n especial ",
-                "units": 6
-            }
-        ],
-        'buyer': {'name': 'Laura Mueller', 'email': None}
-    }
-    predicted_json = deepcopy(expected_json)
-    predicted_json['buyer'] = []
-
-    metrics = json_match_metrics(expected_json, predicted_json)
-    print(metrics)
-    print(metrics.f1_score(key_weight=1, field_weight=1))
+    solution = pd.read_csv("data/competencia/solution.csv")
+    submission = pd.read_csv("data/competencia/submission.csv")
+    print(score(solution, submission))
 
 
 if __name__ == "__main__":
