@@ -10,7 +10,6 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, StopStringCriteria
 from evaluation_metric import score
 
 # %%
-MODEL_NAME = "Qwen/Qwen3-0.6B-Base"
 
 
 class BenchmarkModel:
@@ -95,13 +94,13 @@ class BenchmarkModel:
 
 
 
-def evaluate_batch(model: BenchmarkModel, batch: list[dict]) -> tuple[list[int], list[str]]:
+def evaluate_batch(model, batch: list[dict]) -> tuple[list[int], list[str]]:
     ids = [entry['id'] for entry in batch]
     prediction = model.predict_batch(batch)
     return ids, prediction
 
 
-def evaluate_model(model: BenchmarkModel, eval_file: Path, output_path: Path = 'benchmark.csv'):
+def evaluate_model(model, eval_file: Path, output_path: Path = 'benchmark.csv'):
     ids = []
     prediction = []
     batch_size = 8

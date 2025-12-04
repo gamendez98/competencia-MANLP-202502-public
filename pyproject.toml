@@ -1,0 +1,11 @@
+[project]
+name = "competencia-manlp-202502-public"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.3.3",
+    "peft>=0.18.0",
+    "scikit-learn>=1.7.2",
+    "transformers>=4.57.3",
+]
